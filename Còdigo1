@@ -1,0 +1,6 @@
+base2 <- read.csv ("C://Users//ALUMNO-D27//Desktop//Desempleo.csv")
+base2ts <- ts(base2, start = 2005,end = 2017, frequency = 4)
+tsdesocadi <- decompose(base2ts)
+tsdesocadimult <- decompose(base2ts, type = "mult")
+plot(tsdesocadi)
+plot(tsdesocadimult)
