@@ -1,0 +1,32 @@
+############ Netflix
+netflix <- read.csv ("C://Users//ALUMNO//Desktop//netflix1.csv")
+netflixts <- ts (netflix, start= 2018, frequency= 252)
+plot (netflixts)
+####### Método media
+meanf (st, h)
+media <- meanf (netflixts, 20)
+plot (media)
+###### Método del ingenuo
+naive(st, h)
+ingenuo <- naive(netflixts, 20)
+plot(ingenuo)
+ingenuo
+####### Ingenuo estacional
+snaive(st, h)
+ingestacional <- snaive(netflixts, 252)
+plot(ingestacional)
+####Método de la deriva
+rwf(y, h, drift=TRUE)
+deri <- rwf(netflixts, 20, drift=TRUE)
+plot(deri)
+######
+chela <- window(ausbeer, start=1992, end=c(2007,4))
+chela
+### Grafica algunos pronósticos
+autoplot(chela) +
+autolayer(meanf(chela, h= 11), series= "media", PI= FALSE) +
+autolayer(naive(chela, h=11), series= "ingenuo", PI= FALSE) +
+autolayer(snaive(chela, h=11), series= "ingenuo estacional", PI= FALSE) +
+autolayer(rwf(chela, h=11, drift= T), series= "deriva", PI= FALSE) +
+ggtitle("pronosticos producción cerveza") +xlab("Año") +
+ylab("miles de litros") +guides(colour=guide_legend(title="pronostico"))
