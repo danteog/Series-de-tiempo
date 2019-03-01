@@ -1,0 +1,34 @@
+install.packages("installr")
+updateR()
+library(installr)
+updateR()
+version
+require(forecast)
+require(fpp2)
+chela <- window(ausbeer, start=1992, end=c(2007,4))
+chela
+chelafit1 <- meanf(chela, h=10)
+chelafit2 <- rwf(chela, h=10)
+chelafit3 <- snaive(chela, h=10)
+autoplot(window(ausbeer, start=1992))+
+  autolayer(chelafit1, series="Media", PI=FALSE)+
+  autolayer(chelafit2, series="Ingenuo", PI=FALSE)+
+  autolayer(chelafit3, series="Ingenuo estacional", PI=FALSE)+
+  xlab("Año") + ylab("Litros")+
+  ggtitle("Pronóstico")+
+  guides(colour=guide_legend(title="Pronostico"))
+
+### Error
+chela3 <- window(ausbeer, start=2008)
+accuracy(chelafit1, chela3)
+ME     RMSE      MAE        MPE     MAPE     MASE        ACF1 Theils U
+Training set   0.000 43.62858 35.23438 -0.9365102 7.886776 2.463942 -0.10915105        NA
+Test set     -13.775 38.44724 34.82500 -3.9698659 8.283390 2.435315 -0.06905715  0.801254
+
+accuracy(chelafit2, chela3)
+Training set   0.4761905 65.31511 54.73016  -0.9162496 12.16415 3.827284 -0.24098292        NA
+Test set     -51.4000000 62.69290 57.40000 -12.9549160 14.18442 4.013986 -0.06905715  1.254009
+
+accuracy(chelafit3, chela3)
+Training set -2.133333 16.78193 14.3 -0.5537713 3.313685 1.0000000 -0.2876333        NA
+Test set      5.200000 14.31084 13.4  1.1475536 3.168503 0.9370629  0.1318407  0.298728
