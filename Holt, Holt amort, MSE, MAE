@@ -1,0 +1,69 @@
+require(fpp2)
+al <- window(ausair, start=1990)
+prono <- holt(al, h=5)
+#######
+prono1 <- holt(al, h=15)
+prono2 <- holt(al, damped=TRUE, phi=0.9, h=15)
+prono3 <- ses(al, alpha=0.9, h=15)
+autoplot(al)+
+  autolayer(prono1, series="Holt", PI=FALSE)+
+  autolayer(prono2, series="Amortiguado Holt", PI=FALSE)+
+  autolayer(pronoses, series="SES", PI=FALSE)+
+  ggtitle("Pronòsticos") + xlab("Año") + 
+  ylab("Pasajeros") + 
+  guides(colour=guide_legend(title="Prono"))
+e1 <- tsCV(al, ses, h=1)
+e2 <- tsCV(al, holt, h=1)
+e3 <- tsCV(al, holt, damped=TRUE, h=1)
+
+MSE
+mean(e1^2, na.rm=TRUE)
+#10.58
+mean(e2^2, na.rm=TRUE)
+#6.57
+mean(e3^2, na.rm=TRUE)
+#7.38
+
+MAE
+
+mean(abs(e1), na.rm=TRUE)
+#2.43
+mean(abs(e2), na.rm=TRUE)
+#1.804
+mean(abs(e3), na.rm=TRUE)
+#1.86
+
+###########
+
+pib <- read.csv("C://Users//ALUMNO-D27//Desktop//pibhist.csv")
+pibts <- ts(pib, start= 1961, end= 2017, frequency= 1)
+pron1 <- holt(pibts, h=15)
+pron2 <- holt(pibts, damped=TRUE, phi=0.9, h=15)
+pron3 <- ses(pibts, alpha=0.9, h=15)
+autoplot(pibts)+
+  autolayer(pron1, series="Holt", PI=FALSE)+
+  autolayer(pron2, series="Amortiguado Holt", PI=FALSE)+
+  autolayer(pron3, series="SES", PI=FALSE)+
+  ggtitle("Pronòsticos") + xlab("Año") + 
+  ylab("Pasajeros") + 
+  guides(colour=guide_legend(title="Prono"))
+
+p1 <- tsCV(pibts, ses, h=1)
+p2 <- tsCV(pibts, holt, h=1)
+p3 <- tsCV(pibts, holt, damped=TRUE, h=1)
+
+MSE
+mean(p1^2, na.rm=TRUE)
+#13.05
+mean(p2^2, na.rm=TRUE)
+#13.859
+mean(p3^2, na.rm=TRUE)
+#13.854
+
+MAE
+mean(abs(p1), na.rm=TRUE)
+#2.74
+mean(abs(p2), na.rm=TRUE)
+#2.91
+mean(abs(p3), na.rm=TRUE)
+#2.79
